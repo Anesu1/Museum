@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Afritubu';
+    src: url('./Afritubu.TTF');
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'alegreya';
+    src: url('./alegreya.ttf');
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'calibre';
+    src: url('./calibre.otf');
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'unica';
+    src: url('./NeueHaasUnica-Regular.ttf');
+    font-style: normal;
+}
+
