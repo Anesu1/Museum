@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import styled from "styled-components";
 import { HiMenu } from "react-icons/hi";
 import Menu from "../styled/Menu";
 import { CgCloseO } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import {HOME_QUERY} from "../App"
+import { useQuery } from "@apollo/client";
 
 const HeaderWrapper = styled.header`
   background: ${(props) => props.theme.color.red};
@@ -85,15 +88,19 @@ const HeaderWrapper = styled.header`
   }
 `;
 
+
+
 function Header() {
   const [open, setOpen] = useState(false);
+  const { data} = useQuery(HOME_QUERY)
   window.onscroll = () =>{
       setOpen(false)
   } 
+ 
   return (
     <HeaderWrapper>
       <Link to="/" className="logo">
-        <img src="./images/logo.png" alt="" />
+        <img src={data.pages.edges[1].node.blocks[0].attributes.url} alt="" />
       </Link>
       <div className="hamburger" onClick={() => setOpen(!open)}>
         Menu {open ? <CgCloseO /> : <HiMenu />}

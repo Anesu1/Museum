@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Heading from "../../styled/Heading";
 import Paragraph from "../../styled/Paragraph";
 import Pattern from "../../styled/Pattern";
+import { HOME_QUERY } from "../../App";
+import {useQuery} from '@apollo/client';
 
 const IntroWrapper = styled.section`
   position: relative;
@@ -54,31 +56,22 @@ const IntroWrapper = styled.section`
 `;
 
 function Intro() {
+ const { data } = useQuery(HOME_QUERY);
+ 
+
   return (
     <IntroWrapper>
       <Pattern bgColor="#DB2A27" />
       <div className="intro-inner item1">
-        <Heading text="Introduction" />
+        <Heading text={data.pages.edges[1].node.blocks[5].innerBlocks[0].innerBlocks[0].attributes.content} />
         <Paragraph>
-          The Museum of African Liberation is one of the most ambitious projects
-          by the emerging pan-African think tank - Institute of African
-          Knowledge (INSTAK). Other great projects by INSTAK are The Africa
-          Factbook in association with the African Union Commission and the
-          sister publication Book of African Records.
+        {data.pages.edges[1].node.blocks[5].innerBlocks[0].innerBlocks[1].attributes.content} 
         </Paragraph>
       </div>
       <div className="intro-inner item2">
-        <Heading text="ABOUT THE MUSEUM OF AFRICAN LIBERATION" />
+        <Heading text={data.pages.edges[1].node.blocks[5].innerBlocks[1].innerBlocks[0].attributes.content}  />
         <Paragraph>
-          The establishment of the Museum of African Liberation is a priority
-          project and the support of the Government of Zimbabwe, the host
-          country, is a crucial first step. Following the signing of a
-          Memorandum of Understanding (MOU) between the Government of Zimbabwe
-          and INSTAK, the next concrete step towards the realization of the
-          Museum project was the allocation and identification of a suitable
-          site, a 100-hectare piece ofland, which His Excellency President
-          Mnangagwa commissioned for this purpose at a ground breaking ceremony
-          on 4th December 2020.
+        {data.pages.edges[1].node.blocks[5].innerBlocks[1].innerBlocks[1].attributes.content} 
         </Paragraph>
       </div>
     </IntroWrapper>

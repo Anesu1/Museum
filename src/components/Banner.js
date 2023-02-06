@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { HOME_QUERY } from "../App";
+import {useQuery} from '@apollo/client';
 
 const BannerWrapper = styled.section`
   overflow-x: hidden;
@@ -80,6 +83,7 @@ const BannerWrapper = styled.section`
 `;
 
 function Banner({ bgImageOne, bgImageTwo}) {
+  const { data } = useQuery(HOME_QUERY);
   const settings = {
     dots: false,
     infinite: true,
@@ -97,12 +101,12 @@ function Banner({ bgImageOne, bgImageTwo}) {
       <Slider {...settings}>
         <div className="banner-item item1">
           <h1>
-            Welcome to the <br /> Museum of African Liberation
+            {data.pages.edges[0].node.blocks[1].attributes.content} <br /> {data.pages.edges[0].node.blocks[2].attributes.content}
           </h1>
         </div>
         <div className="banner-item item2">
           <h1>
-            Welcome to the <br /> Museum of African Liberation
+          {data.pages.edges[0].node.blocks[1].attributes.content} <br /> {data.pages.edges[0].node.blocks[2].attributes.content}
           </h1>
           
         </div>

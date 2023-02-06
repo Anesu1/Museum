@@ -1,6 +1,8 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
+import { HOME_QUERY } from "../App";
+import { useQuery } from "@apollo/client";
 
 const VideoWrapper = styled.div`
   margin-left: 8%;
@@ -16,12 +18,13 @@ const VideoWrapper = styled.div`
 `;
 
 function Video() {
+  const {data} = useQuery(HOME_QUERY)
   return (
     <VideoWrapper>
       <ReactPlayer
         width="100%"
         height="100%"
-        url="https://www.youtube.com/watch?v=TKjyQeFiLqI"
+        url={data.pages.edges[1].node.blocks[9].attributes.url}
         controls
       />
     </VideoWrapper>

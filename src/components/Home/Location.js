@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Heading from "../../styled/Heading";
 import Paragraph from "../../styled/Paragraph";
 import Pattern from "../../styled/Pattern";
+import { HOME_QUERY } from "../../App";
+import {useQuery} from '@apollo/client';
 
 const LocationWrapper = styled.section`
   position: relative;
@@ -90,31 +92,29 @@ const LocationWrapper = styled.section`
 `;
 
 function Location() {
+  const { data } = useQuery(HOME_QUERY);
+
+
+
   return (
     <LocationWrapper>
       <Pattern bgColor="#F6B119" />
 
       <div className="location-inner">
-        <img className="location" src="./images/home/location.jpeg" alt="" />
+        <img className="location" src={data.pages.edges[1].node.blocks[8].innerBlocks[0].innerBlocks[0].attributes.url} alt="" />
       </div>
       <div className="location-inner text">
-        <Heading text="MUSEUM LOCATION" />
+        <Heading text={data.pages.edges[1].node.blocks[8].innerBlocks[1].innerBlocks[0].attributes.content} />
         <Paragraph>
-          The Museum of African Liberation is being constructed in Harare
-          Zimbabwe but aspires to house material from all African countries
-          which waged armed struggle in order to liberate themselves but also
-          includes countries that may not have taken up arms but were
-          instrumental in the liberation period. The Museum of African
-          Liberation will be a monument of the epic struggle to liberate the
-          African people from colonialism and apartheid
+          {data.pages.edges[1].node.blocks[8].innerBlocks[1].innerBlocks[1].attributes.content}
         </Paragraph>
       </div>
       <div className="location-imgs">
         <div className="img">
-          <img src="./images/home/location-left.jpeg" alt="" />
+          <img src={data.pages.edges[1].node.blocks[8].innerBlocks[0].innerBlocks[1].attributes.images[0].url} alt="" />
         </div>
         <div className="img">
-          <img src="./images/home/location-right.jpeg" alt="" />
+          <img src={data.pages.edges[1].node.blocks[8].innerBlocks[0].innerBlocks[1].attributes.images[1].url} alt="" />
         </div>
       </div>
     </LocationWrapper>

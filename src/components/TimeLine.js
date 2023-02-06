@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import TimeLineItem from "../styled/TimeLineItem";
 import Pattern from "../styled/Pattern";
+import { HOME_QUERY } from "../App";
+import {useQuery} from '@apollo/client';
 
 const TimeLineWrapper = styled.section`
   position: relative;
@@ -92,33 +94,7 @@ const TimeLineWrapper = styled.section`
   }
 `;
 
-const items = [
-  {
-    featuredImage: "./images/content1.png",
-    title: "THE MUSEUM OF AFRICAN LIBERATION GROUND BREAKING CEREMONY",
-    date: "2019",
-    text: "His Excellency the President of the Republic of Zimbabwe Cde. Dr. Emmerson D. Mnangagwa energetically pounds the ground in a symbolic and historical gesture during the ground breaking ceremony at the Museum of African Liberation site in Warren Park, Harare on 3 December 2020. Looking on are the Minister of Home Affairs and Cultural Heritage Cde Kazembe Kazembe, INSTAK CEO Ambassador Kwame Muzawazi and INSTAK Board Chairperson Ambassador Prof. Simbi Mubako.",
-  },
-  {
-    featuredImage: "./images/content2.png",
-    title: "THE AFRICA FACTBOOK LAUNCH",
-    date: "2020",
-    text: "His Excellency the President of the Republic of Zimbabwe Cde. Dr. Emmerson D. Mnangagwa proudly displays a copy of The Africa Factbook he personally signed as an authentic and factual publication which demystifies some inaccurate narratives whichhad been peddled about Africa. Watching on are (from L to R) INSTAK CEO Amb. Kwame Muzawazi, INSTAK Board Chairperson Amb. Prof. Simbi Mubako and the African Union Chairperson and South African President, His Excellency Cyril Ramaphosa’s representative, the then South African Ambassador to Zimbabwe, His Excellency Mphakama Mbete. The Africa Factbook launch took place in Harare on the 9th of September 2020.",
-  },
-  {
-    featuredImage: "./images/content3.png",
-    title:
-      "SOLIDARITY TREE PLANTING AND RUSSIA FEDERATION NATIONAL FLAG RAISING DAY",
-    date: "2021",
-    text: "The Ambassador of the Russian Federation Ambassador to Zimbabwe, Nikolai Krasilnikov plants a Mukumba tree at the Museum of African Liberation site in Warren Park, Harare. This was a symbolic gesture of solidarity between the Russian federation and the Museum of African Liberation. During the same event, on the 18th of February 2021, the Russian Diplomat also raised the Russian Federation flag to seal the relationship between the museum project and Russia. Looking on are the Cuban Ambassador to Zimbabwe Mrs Carmelina Ramirez Rodriguez and INSTAK CEO Amb. Kwame Muzawazi.",
-  },
-  {
-    featuredImage: "./images/content4.png",
-    title: "CUBAN SOLIDARITY TREE PLANTING",
-    date: "2022",
-    text: "The Cuban Ambassador to Zimbabwe Mrs Carmelina Ramirez Rodriguez waters the Mukumba tree she had just planted at the Museum of African Liberation site under watchful eyes of the Russian Federation ambassador to Zimbabwe, Nikolai Krasilnikov and INSTAK CEO Amb. Kwame Muzawazi on 18 February 2021. She also took the opportunity to raise the Cuban national flag at the site symbolising Cuban support to the Museum of African Liberation.",
-  },
-];
+
 
 const colors = [
   {
@@ -135,7 +111,9 @@ const colors = [
   },
 ];
 
+
 function TimeLine() {
+  const { data } = useQuery(HOME_QUERY);
   return (
     <TimeLineWrapper>
       {colors.map((item, i) => {
@@ -144,17 +122,37 @@ function TimeLine() {
       <h2>INSTAK DIGITAL STORY LINE IN PICTURES:</h2>
       <div className="timeline">
         <ul>
-          {items.map((item, i) => {
+          <TimeLineItem featuredImage={data.pages.edges[0].node.blocks[4].innerBlocks[0].innerBlocks[0].innerBlocks[0].attributes.url} 
+                        date={data.pages.edges[0].node.blocks[4].innerBlocks[0].innerBlocks[1].innerBlocks[0].attributes.content}
+                        title={data.pages.edges[0].node.blocks[4].innerBlocks[0].innerBlocks[1].innerBlocks[1].attributes.content}
+                        text={data.pages.edges[0].node.blocks[4].innerBlocks[0].innerBlocks[1].innerBlocks[2].attributes.content}
+          />
+          <TimeLineItem featuredImage={data.pages.edges[0].node.blocks[4].innerBlocks[1].innerBlocks[0].innerBlocks[0].attributes.url} 
+                        date={data.pages.edges[0].node.blocks[4].innerBlocks[1].innerBlocks[1].innerBlocks[0].attributes.content}
+                        title={data.pages.edges[0].node.blocks[4].innerBlocks[1].innerBlocks[1].innerBlocks[1].attributes.content}
+                        text={data.pages.edges[0].node.blocks[4].innerBlocks[1].innerBlocks[1].innerBlocks[2].attributes.content}
+          />
+          <TimeLineItem featuredImage={data.pages.edges[0].node.blocks[4].innerBlocks[2].innerBlocks[0].innerBlocks[0].attributes.url} 
+                        date={data.pages.edges[0].node.blocks[4].innerBlocks[2].innerBlocks[1].innerBlocks[0].attributes.content}
+                        title={data.pages.edges[0].node.blocks[4].innerBlocks[2].innerBlocks[1].innerBlocks[1].attributes.content}
+                        text={data.pages.edges[0].node.blocks[4].innerBlocks[2].innerBlocks[1].innerBlocks[2].attributes.content}
+          />
+          <TimeLineItem featuredImage={data.pages.edges[0].node.blocks[4].innerBlocks[3].innerBlocks[0].innerBlocks[0].attributes.url} 
+                        date={data.pages.edges[0].node.blocks[4].innerBlocks[3].innerBlocks[1].innerBlocks[0].attributes.content}
+                        title={data.pages.edges[0].node.blocks[4].innerBlocks[3].innerBlocks[1].innerBlocks[1].attributes.content}
+                        text={data.pages.edges[0].node.blocks[4].innerBlocks[3].innerBlocks[1].innerBlocks[2].attributes.content}
+          />
+          {/* {data.pages.edges[0].node.blocks[4].innerBlocks.map((item, i) => {
             return (
               <TimeLineItem
-                featuredImage={item.featuredImage}
-                title={item.title}
-                date={item.date}
-                text={item.text}
+                featuredImage={item.innerBlocks[0].innerBlocks[0].attributes.url}
+                // title={item.innerBlocks[i].innerBlocks[1].attributes.content}
+                // date={item.innerBlocks[i].innerBlocks[0].attributes.content }
+                // text={item.innerBlocks[i].innerBlocks[2].attributes.content}
                 key={i}
               />
             );
-          })}
+          })} */}
         </ul>
       </div>
     </TimeLineWrapper>

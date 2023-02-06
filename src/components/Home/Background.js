@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Heading from "../../styled/Heading";
 import Paragraph from "../../styled/Paragraph";
 import Pattern from "../../styled/Pattern";
+import { HOME_QUERY } from "../../App";
+import {useQuery} from '@apollo/client';
 
 const BackgroundWrapper = styled.section`
   position: relative;
@@ -65,12 +67,12 @@ const BackgroundWrapper = styled.section`
   }
   .item1 {
     background: linear-gradient(to bottom, #00000053, #00000053),
-      url("./images/item1.jpeg");
+      url("${props => props.item1}");
     background-size: cover;
   }
   .item2 {
     background: linear-gradient(to bottom, #00000053, #00000053),
-      url("./images/item2.jpeg");
+      url("${props => props.item2}");
     background-size: cover;
   }
 `;
@@ -128,6 +130,8 @@ const PrevButton = styled.button`
 `;
 
 function Background() {
+  const { data } = useQuery(HOME_QUERY);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -140,27 +144,19 @@ function Background() {
     nextArrow: <NextButton />,
   };
   return (
-    <BackgroundWrapper>
+    <BackgroundWrapper item1={data.pages.edges[1].node.blocks[6].innerBlocks[1].innerBlocks[0].attributes.images[0].url} item2={data.pages.edges[1].node.blocks[6].innerBlocks[1].innerBlocks[0].attributes.images[1].url}>
       <Pattern bgColor="#000" />
       <div className="bg-inner">
-        <Heading text="Background Instak" />
+        <Heading text={data.pages.edges[1].node.blocks[6].innerBlocks[0].innerBlocks[0].attributes.content} />
         <Paragraph>
-          The establishment of the Museum of African Liberation is a priority
-          project and the support of the Government of Zimbabwe, the host
-          country, is a crucial first step. Following the signing of a
-          Memorandum of Understanding (MOU) between the Government of Zimbabwe
-          and INSTAK, the next concrete step towards the realization of the
-          Museum project was the allocation and identification of a suitable
-          site, a 100-hectare piece ofland, which His Excellency President
-          Mnangagwa commissioned for this purpose at a ground breaking ceremony
-          on 4th December 2020.
+        {data.pages.edges[1].node.blocks[6].innerBlocks[0].innerBlocks[1].attributes.content}
         </Paragraph>
         <Link to="/">Find out more</Link>
       </div>
       <div className="bg-inner bg-slide">
         <Slider {...settings}>
-          <div className="bg-image item1"></div>
-          <div className="bg-image item2"></div>
+          <div className="bg-image item1" ></div>
+          <div className="bg-image item2" ></div>
         </Slider>
       </div>
     </BackgroundWrapper>

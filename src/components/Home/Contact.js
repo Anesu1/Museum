@@ -1,9 +1,12 @@
 import { TextField } from "@mui/material";
-import React from "react";
 import styled from "styled-components";
 import Heading from "../../styled/Heading";
 import Pattern from "../../styled/Pattern";
 import Paragraph from "../../styled/Paragraph";
+import { HOME_QUERY } from "../../App";
+import {useQuery} from '@apollo/client';
+import React, { useRef, useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const ContactWrapper = styled.section`
   position: relative;
@@ -81,30 +84,54 @@ const ContactWrapper = styled.section`
   }
 `;
 
+
+  
+
 function Contact() {
+  const { data } = useQuery(HOME_QUERY);
+  const form = useRef();
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    emailjs.sendForm('service_92t9v6n', 'template_qv26rrg', form.current, 'user_L7z7YdEWv5XH0eqKsPJhm')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+      setUserName("");
+      setEmail("");
+      setMessage("")
+  };
   return (
-    <ContactWrapper bgImage="./images/contact.png">
+    <ContactWrapper bgImage={data.pages.edges[1].node.blocks[19].attributes.url}>
       <Pattern bgColor="#DB2A27" />
       <div className="contact-inner">
         <div className="contact-item">
-          <span>Get in touch</span>
-          <Heading text="CONTACT" />
+          <span>{data.pages.edges[1].node.blocks[13].attributes.content}</span>
+          <Heading text={data.pages.edges[1].node.blocks[14].attributes.content} />
 
           <Paragraph>
-            Address: Cnr Samora Machel Ave West/Golden <br /> Quarry Road,
-            Warren Park, Harare, Zimbabwe
+            {data.pages.edges[1].node.blocks[15].attributes.content} <br /> 
+            {data.pages.edges[1].node.blocks[16].attributes.content}
           </Paragraph>
-          <Paragraph>Phone number:</Paragraph>
-          <Paragraph>Email address: Info@africanliberation.museum</Paragraph>
+          <Paragraph>{data.pages.edges[1].node.blocks[17].attributes.content}</Paragraph>
+          <Paragraph>{data.pages.edges[1].node.blocks[18].attributes.content}</Paragraph>
         </div>
-        <form>
-          <TextField label="Name:" variant="standard" />
-          <TextField label="Email:" variant="standard" />
+        <form ref={form} onSubmit={sendEmail}>
+          <TextField label="Name:" name="userName" value={userName} onChange={e => setUserName(e.target.value)} variant="standard" />
+          <TextField label="Email:" name="email" value={email} onChange={e => setEmail(e.target.value)} variant="standard" />
           <TextField
             id="standard-multiline-static"
             label="Message"
             variant="standard"
             multiline
+            name="message"
+            value={message}
+            onChange={e => setMessage(e.target.value)}
             rows={3}
           />
           <button type="submit">Submit</button>

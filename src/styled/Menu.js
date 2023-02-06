@@ -119,17 +119,12 @@ function Menu({ open, setOpen }) {
         </li>
         <li onClick={() => setOpen(false)}>
           <NavLink to="/a"  activeClassName="active">
-            Board of Trustees
+            News & Events
           </NavLink>
         </li>
         <li onClick={() => setOpen(false)}>
           <NavLink to="/a"  activeClassName="active">
-            News
-          </NavLink>
-        </li>
-        <li onClick={() => setOpen(false)}>
-          <NavLink to="/a"  activeClassName="active">
-            Visuals
+            Gallery
           </NavLink>
         </li>
       </ul>

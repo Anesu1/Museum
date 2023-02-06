@@ -2,6 +2,8 @@
 import React from "react";
 import styled from "styled-components";
 import Pattern from "../styled/Pattern";
+import { HOME_QUERY } from "../App";
+import {useQuery} from '@apollo/client';
 
 const FooterWrapper = styled.footer`
   position: relative;
@@ -80,18 +82,19 @@ const FooterWrapper = styled.footer`
 `;
 
 function Footer() {
+  const { data } = useQuery(HOME_QUERY);
   return (
     <FooterWrapper>
       <Pattern bgColor="#000" />
       <div className="footer-inner">
-        <img src="./images/logo.png" className="logo" alt="" />
-        <img src="./images/africa.png" alt="" className="africa" />
+        <img src={data.pages.edges[1].node.blocks[0].attributes.url} className="logo" alt="" />
+        <img src={data.pages.edges[1].node.blocks[20].attributes.url} alt="" className="africa" />
         <div className="text">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use 2021</a>
+          <a href="#">{data.pages.edges[1].node.blocks[23].attributes.content}</a>
+          <a href="#">{data.pages.edges[1].node.blocks[21].attributes.content}</a>
           <p>
-            Handcrafted by <br />
-            <a href="#">EvokeZW </a>&<a href="#"> Revixions</a>
+            {data.pages.edges[1].node.blocks[22].attributes.content} <br />
+            <a href="#">EvokeZW </a>&<a href="https://www.facebook.com/revixions"> Revixions</a>
           </p>
         </div>
       </div>

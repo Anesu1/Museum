@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { HOME_QUERY } from "../App";
+import { useQuery } from "@apollo/client";
 
 const TitleWrapper = styled.section`
   background: #000;
@@ -12,9 +14,9 @@ const TitleWrapper = styled.section`
   @media (min-width: 992px) {
     padding: 15px 0;
   }
-  h3 {
+p {
     font-family: ${(props) => props.theme.fam.afri};
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     text-align: center;
     line-height: 36px;
@@ -38,7 +40,7 @@ const TitleWrapper = styled.section`
       max-width: 550px;
     }
   }
-  p {
+  h5{
     font-family: ${(props) => props.theme.fam.alegreya};
     font-weight: 100;
     font-size: 15px;
@@ -67,13 +69,13 @@ const TitleWrapper = styled.section`
 `;
 
 function Title() {
+  const {data} = useQuery(HOME_QUERY)
   return (
     <TitleWrapper>
-      <h3>
-        “ I am not African because I was born in Africa, but because Africa was
-        born in me “
-      </h3>
-      <p>Kwame Nkrumah</p>
+      <p>
+    {data.pages.edges[1].node.blocks[3].attributes.content}
+      </p>
+      <h5>{data.pages.edges[1].node.blocks[4].attributes.content}</h5>
       <div className="gold"></div>
     </TitleWrapper>
   );

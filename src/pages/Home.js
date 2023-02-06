@@ -7,14 +7,18 @@ import Location from "../components/Home/Location";
 import VideoSection from "../components/Home/VideoSection";
 import Exhibition from "../components/Home/Exhibition";
 import Contact from "../components/Home/Contact";
+import { HOME_QUERY } from "../App";
+import { useQuery } from "@apollo/client";
 
 function Home() {
+  const { data } = useQuery(HOME_QUERY);
+
   return (
     <>
       <Title />
       <Banner
-        bgImageTwo="./images/item2.jpeg"
-        bgImageOne="./images/item1.jpeg"
+        bgImageTwo={data.pages.edges[1].node.blocks[2].attributes.images[0].url}
+        bgImageOne={data.pages.edges[1].node.blocks[2].attributes.images[1].url}
       />
       <Intro />
       <Background />
